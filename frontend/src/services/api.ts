@@ -1,6 +1,6 @@
 import type { CustomerSummary, Customer, Event, Course, Analytics } from '../types';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
 
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url);
