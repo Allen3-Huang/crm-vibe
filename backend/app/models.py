@@ -1,7 +1,18 @@
-from datetime import date
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from datetime import date, datetime
+from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
+
+
+class User(Base):
+    """用戶模型 - 存儲 Google OAuth 登入的用戶"""
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    name = Column(String, nullable=False)
+    picture = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 
 class Customer(Base):
