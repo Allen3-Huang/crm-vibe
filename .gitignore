@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.pyc
+__pycache__/
+
+# Environment and sensitive data
+.env
+.env.*
+*.env
+.env.local
+.env.development
+.env.production
+*.pem
+*.key
+*.crt
+credentials.json
+secrets.json
+config.local.*
+
+# User data
+my_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
