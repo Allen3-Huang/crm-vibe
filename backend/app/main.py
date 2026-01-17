@@ -20,7 +20,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://crm-vibe-api.zeabur.app",
+        "https://crm-vibe.zeabur.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
