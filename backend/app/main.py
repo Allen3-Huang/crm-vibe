@@ -11,6 +11,7 @@ from .auth import (
     verify_google_token,
     create_access_token,
     get_current_user,
+    get_customer_admin_user,
     get_or_create_user,
 )
 
@@ -107,9 +108,9 @@ def root():
 @app.get("/api/customers")
 def get_customers(
     service: DBService = Depends(get_service),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_customer_admin_user),
 ):
-    """取得所有顧客列表"""
+    """取得所有顧客列表（僅限授權用戶）"""
     return service.get_all_customers()
 
 
@@ -117,9 +118,9 @@ def get_customers(
 def get_customer(
     email: str,
     service: DBService = Depends(get_service),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_customer_admin_user),
 ):
-    """取得單一顧客詳細資料"""
+    """取得單一顧客詳細資料（僅限授權用戶）"""
     customer = service.get_customer_by_email(email)
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")

@@ -74,6 +74,21 @@ def get_current_user(
     return user
 
 
+ALLOWED_CUSTOMER_EMAILS = ["a126b2003@gmail.com"]
+
+
+def get_customer_admin_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """驗證用戶是否有權限訪問顧客資料"""
+    if current_user.email not in ALLOWED_CUSTOMER_EMAILS:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have permission to access customer data",
+        )
+    return current_user
+
+
 def get_or_create_user(db: Session, email: str, name: str, picture: str) -> User:
     """查找或創建用戶"""
     user = db.query(User).filter(User.email == email).first()

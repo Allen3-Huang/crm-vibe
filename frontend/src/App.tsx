@@ -9,7 +9,7 @@ import Analytics from './pages/Analytics';
 import Login from './pages/Login';
 import './App.css';
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+function ProtectedRoute({ children, allowedEmail }: { children: React.ReactNode; allowedEmail?: string }) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
 
@@ -19,6 +19,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (allowedEmail && user.email !== allowedEmail) {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
@@ -46,7 +50,9 @@ function AppContent() {
       <nav className="sidebar">
         <div className="logo">CRM</div>
         <NavLink to="/" end>儀表板</NavLink>
-        <NavLink to="/customers">顧客</NavLink>
+        {user?.email === 'a126b2003@gmail.com' && (
+          <NavLink to="/customers">顧客</NavLink>
+        )}
         <NavLink to="/events">活動</NavLink>
         <NavLink to="/courses">課程</NavLink>
         <NavLink to="/analytics">分析</NavLink>
@@ -68,8 +74,8 @@ function AppContent() {
       <main className="content">
         <Routes>
           <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
-          <Route path="/customers/:email" element={<ProtectedRoute><CustomerDetail /></ProtectedRoute>} />
+          <Route path="/customers" element={<ProtectedRoute allowedEmail="a126b2003@gmail.com"><Customers /></ProtectedRoute>} />
+          <Route path="/customers/:email" element={<ProtectedRoute allowedEmail="a126b2003@gmail.com"><CustomerDetail /></ProtectedRoute>} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
           <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
